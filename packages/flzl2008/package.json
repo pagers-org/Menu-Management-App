@@ -1,0 +1,29 @@
+{
+  "name": "@project/flzl2008",
+  "version": "1.0.0",
+  "description": "flzl2008 Menu-Management-App",
+  "keywords": [
+    "TypeScript"
+  ],
+  "author": "InSeongSo <goflvhxj2547@gmail.com>",
+  "homepage": "https://github.com/FECrash/Menu-Management-App/tree/main/packages/flzl2008#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FECrash/Menu-Management-App.git"
+  },
+  "scripts": {
+    "start": "npm run build & parcel index.html",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/FECrash/Menu-Management-App/issues"
+  },
+  "dependencies": {
+    "modules": "^0.4.0",
+    "parcel": "^2.1.1",
+    "shared": "^0.2.0",
+    "ui": "^0.2.4"
+  }
+}
