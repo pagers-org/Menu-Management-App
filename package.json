@@ -7,16 +7,20 @@
   ],
   "scripts": {
     "taskkill": "kill-port --port 1234,3000,5510",
+    "bootstrap": "lerna bootstrap --use-workspaces",
     "dev": "lerna run dev",
     "build": "lerna run --parallel build",
     "inseong-so:test": "lerna run --scope @project/inseong-so test --parallel",
     "inseong-so:build": "lerna run --scope @project/inseong-so build",
+    "inseong-so:front": "yarn run taskkill && lerna run --scope @project/inseong-so start --parallel",
     "inseong-so:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/inseong-so} start --parallel",
     "sinholee:test": "lerna run --scope @project/sinholee test --parallel",
     "sinholee:build": "lerna run --scope @project/sinholee build",
+    "sinholee:front": "yarn run taskkill && lerna run --scope @project/sinholee start --parallel",
     "sinholee:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/sinholee} start --parallel",
     "xianeml:test": "lerna run --scope @project/xianeml test --parallel",
     "xianeml:build": "lerna run --scope @project/xianeml build",
+    "xianeml:front": "yarn run taskkill && lerna run --scope @project/xianeml start --parallel",
     "xianeml:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/xianeml} start --parallel"
   },
   "repository": {
@@ -24,8 +28,8 @@
     "url": "git+https://github.com/FECrash/Menu-Management-App.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "InSeong-So",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/FECrash/Menu-Management-App/issues"
   },
