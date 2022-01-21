@@ -21,7 +21,11 @@
     "xianeml:test": "lerna run --scope @project/xianeml test --parallel",
     "xianeml:build": "lerna run --scope @project/xianeml build",
     "xianeml:front": "yarn run taskkill && lerna run --scope @project/xianeml start --parallel",
-    "xianeml:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/xianeml} start --parallel"
+    "xianeml:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/xianeml} start --parallel",
+    "flzl2008:test": "lerna run --scope @project/flzl2008 test --parallel",
+    "flzl2008:build": "lerna run --scope @project/flzl2008 build",
+    "flzl2008:front": "yarn run taskkill && lerna run --scope @project/flzl2008 start --parallel",
+    "flzl2008:start": "yarn run taskkill && lerna run --scope {@project/backend,@project/flzl2008} start --parallel"
   },
   "repository": {
     "type": "git",
