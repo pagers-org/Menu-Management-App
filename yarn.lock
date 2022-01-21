@@ -7615,7 +7615,7 @@ keyv@^3.0.0:
   dependencies:
     json-buffer "3.0.0"
 
-kill-port@^1.6.1:
+kill-port@1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/kill-port/-/kill-port-1.6.1.tgz#560fe79484583bdf3a5e908557dae614447618aa"
   integrity sha512-un0Y55cOM7JKGaLnGja28T38tDDop0AQ8N0KlAdyh+B1nmMoX8AnNmqPNZbS3mUMgiST51DCVqmbFT1gNJpVNw==
