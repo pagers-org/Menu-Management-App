@@ -5,3 +5,7 @@ export const CATEGORIES = [
   { id: 'teavana', text: '🍸 티바나' },
   { id: 'desert', text: '🍰 디저트' },
 ];
+
+export const ERROR_MESSAGE = {
+  INVALIID_INPUT: '정확한 메뉴명을 입력해주세요.',
+};
