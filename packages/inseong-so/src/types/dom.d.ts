@@ -34,5 +34,8 @@ declare module 'DomConverter' {
 }
 
 declare module 'DOMEvent' {
+  export interface TEventHandlerProps extends HTMLElement {
+    key: string;
+  }
   export type TMouseEvent = MouseEvent & { target: HTMLButtonElement };
 }
