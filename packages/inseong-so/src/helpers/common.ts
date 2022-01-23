@@ -1,3 +1,13 @@
+export const $ = (selector: string) => document.querySelector(selector) as HTMLElement;
+
+export const $closets = (current: HTMLElement, selector: string, target: string) => {
+  const $li = current.closest(selector);
+  if (!($li instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
+  const $item = $li.querySelector(target);
+  if (!($item instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
+  return $item;
+};
+
 /**
  * 문자열을 각 케이스로 변경합니다.
  */
