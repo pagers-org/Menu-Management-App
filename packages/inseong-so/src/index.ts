@@ -2,7 +2,7 @@ import '../assets/css/index.scss';
 
 import App from './App';
 import render from './helpers/dom/render';
-import store from './store';
+import store from './storage';
 import { CATEGORIES } from './constants';
 
 const diffRenderer = () => {
