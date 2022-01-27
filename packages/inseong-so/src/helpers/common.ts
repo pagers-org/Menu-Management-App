@@ -1,12 +1,31 @@
+import { TDomGetter } from 'DOM';
+
 export const $ = (selector: string) => document.querySelector(selector) as HTMLElement;
 
-export const $closets = (current: HTMLElement, selector: string, target: string) => {
+export const $all = (selector: string) => {
+  return document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
+};
+
+export const $closest = (current: HTMLElement, selector: string, target: string) => {
   const $li = current.closest(selector);
   if (!($li instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
   const $item = $li.querySelector(target);
   if (!($item instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
   return $item;
 };
+
+export const $parentComponent: TDomGetter = selector => {
+  let $element: HTMLElement = $(selector);
+  while ($element.parentElement !== null) {
+    const parent = $element.parentElement as HTMLElement;
+    if (parent.tagName === 'BODY' || parent.getAttribute('data-component') !== null) break;
+    $element = parent;
+  }
+  return $element.parentElement as HTMLElement;
+};
+
+export const $attr = ($element: HTMLElement, selector: string | void) =>
+  $element.getAttribute(selector || 'data-component');
 
 /**
  * 문자열을 각 케이스로 변경합니다.

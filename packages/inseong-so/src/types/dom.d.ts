@@ -39,3 +39,7 @@ declare module 'DOMEvent' {
   }
   export type TMouseEvent = MouseEvent & { target: HTMLButtonElement };
 }
+
+declare module 'DOM' {
+  export type TDomGetter = (selector: string) => HTMLElement;
+}
