@@ -2,7 +2,7 @@ import { TMenuProps, TMenuEventHandler } from 'App';
 import { TMouseEvent } from 'DOMEvent';
 import { IStore } from 'Store';
 import { ERROR_MESSAGE } from '~/src/constants';
-import { $closets, createUUID } from '~/src/helpers/common';
+import { $closest, createUUID } from '~/src/helpers/common';
 import MenuPage from './MenuPage';
 
 // let lastCallback: any;
@@ -50,7 +50,7 @@ const MenuPageContainer = (store: IStore) => {
   };
   const editMenu: TMenuEventHandler = ($element, menuList, categoryId) => {
     const newMenuName = prompt('메뉴를 수정하시겠어요?') as string;
-    if (newMenuName.length < 1) return alert(ERROR_MESSAGE.INVALIID_INPUT);
+    if (newMenuName.trim().length < 1) return alert(ERROR_MESSAGE.INVALIID_INPUT);
     const key = $element.getAttribute('key');
     const newMenuList = menuList.map(menu => {
       if (menu.menuId === key) return { ...menu, name: newMenuName };
@@ -74,14 +74,19 @@ const MenuPageContainer = (store: IStore) => {
 
   // TODO: 이벤트 리스너를 어떻게 효율적으로 처리할 것인가
   const handleClick = ({ target }: TMouseEvent) => {
-    const $item = $closets(target, 'li', 'span');
-    if ($item === undefined) return;
+    const check = Object.values(SELECTOR)
+      .map(elementSelector => target.matches(elementSelector))
+      .filter(check => check)[0];
+    if (check === undefined) return;
+
     const { id: currentId } = store.read('current');
     const currentMenuListId = `${currentId}-menuList`;
     const menuList = store.read(currentMenuListId) as TMenuProps[];
     if (target.matches(SELECTOR.ADD)) {
       return addMenu(menuList, currentMenuListId);
     }
+    const $item = $closest(target, 'li', 'span');
+    if ($item === undefined) return;
     if (target.matches(SELECTOR.SOLDOUT)) {
       return soldOutMenu($item, menuList, currentMenuListId);
     }
