@@ -12,10 +12,7 @@ import { isEquals, isNull } from '../common';
 const render: TDiffRender = ($element, realNode, virtualNode) => {
   if (isNull(realNode) && isNull(virtualNode)) return;
   if (isOnlyExistRight(realNode, virtualNode)) return $element.append(virtualNode);
-  if (isOnlyExistLeft(realNode, virtualNode)) {
-    $element.innerHTML = '';
-    return;
-  }
+  if (isOnlyExistLeft(realNode, virtualNode)) return realNode.remove();
   if (isChangedNode(realNode, virtualNode)) return realNode.replaceWith(virtualNode);
 
   const [realChildren, realLength] = getChildren(realNode);
