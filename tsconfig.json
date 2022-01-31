@@ -29,7 +29,8 @@
     "paths": {
       "@inseong-so/*": ["../inseong-so/src"],
       "@SINHOLEE/*": ["../SINHOLEE/src/*"],
-      "@xianeml/utils/*": ["../xianeml/src/*"]
+      "@xianeml/utils/*": ["../xianeml/src/*"],
+      "@ui/*": ["../ui/src/*"],
     },
   },
 }
