@@ -203,3 +203,23 @@ export const isDuplicate = (value: any, items: any[]) =>
  * @returns
  */
 export const last = (array: any[], ...args: any[]) => array[array.length - 1][args[0]];
+
+let lastCallback: any;
+let lastCallbackDependencies: any[];
+
+export const useCallback = (callback: any, dependencies: any[]) => {
+  if (lastCallbackDependencies) {
+    const isChange = !dependencies.every(
+      (item: any, index: number) => item === lastCallbackDependencies[index],
+    );
+    if (isChange) {
+      lastCallback = callback;
+      lastCallbackDependencies = dependencies;
+    }
+  } else {
+    lastCallback = callback;
+    lastCallbackDependencies = dependencies;
+  }
+
+  return lastCallback;
+};

@@ -179,4 +179,29 @@ const parse = (tokens: TTokens[]) => {
   return root;
 };
 
-export default (html: string) => parse(tokenize(html));
+export const htmlParser = (html: string) => parse(tokenize(html));
+
+export const bindState = <State>(
+  component: (state: State) => {
+    component: string;
+    events: { type: string; cb: (params?: Event) => void }[];
+  },
+  state: State,
+) => {
+  return component(state);
+};
+
+export const setupComponent = <State>(
+  state: any,
+  components: ((state: State) => {
+    component: string;
+    events: { type: string; cb: any }[];
+  })[],
+) => {
+  return components
+    .map(component => bindState(component, state))
+    .map(({ component, events }) => ({
+      ...htmlParser(component).children[0],
+      events,
+    }));
+};
