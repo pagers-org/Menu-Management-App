@@ -1,5 +1,11 @@
 export type Treducer = (state: Tstate, action: TmenuAction) => Tstate;
 
+export type Tstore = {
+  getState: () => Tstate;
+  dispatch: (action: TmenuAction) => void;
+  subscribe: (callback: Tlistener) => void;
+};
+
 export type Tstate = {
   menus: Tmenu[];
   currentTab: Tcategory;

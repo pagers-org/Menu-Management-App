@@ -1,6 +1,6 @@
-import { Treducer, TmenuAction, Tlistener, Tstate } from '../types/store.js';
+import { Treducer, TmenuAction, Tlistener, Tstate, Tstore } from '../types/store.js';
 
-export function createStore(reducer: Treducer) {
+export const createStore = (reducer: Treducer): Tstore => {
   const initialState: Tstate = {
     menus: [],
     currentTab: { id: 'espresso', name: '☕ 에스프레소' },
@@ -16,7 +16,7 @@ export function createStore(reducer: Treducer) {
   const listeners: Tlistener[] = [];
 
   const getState = () => {
-    return JSON.parse(localStorage.getItem('state') || '{}');
+    return JSON.parse(localStorage.getItem('state') || '{}') as Tstate;
   };
 
   const dispatch = (action: TmenuAction) => {
@@ -43,4 +43,4 @@ export function createStore(reducer: Treducer) {
     dispatch,
     subscribe,
   };
-}
+};
