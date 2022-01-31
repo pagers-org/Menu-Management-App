@@ -22,9 +22,10 @@ declare module 'redux' {
     (): void;
   }
 
-  export interface Store {
-    dispatch: (action: TAction) => void;
-    subscribe: (data: any) => void;
-    getState: () => TAnyState;
+  export interface IStore<T = any> {
+    dispatch: (action: TAction<any>) => void;
+    subscribe: (callback: TAnyState) => void;
+    getState: (reduce?: string, key?: string) => any;
+    actionsEmitter: T;
   }
 }

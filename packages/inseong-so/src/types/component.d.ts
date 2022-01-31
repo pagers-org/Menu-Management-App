@@ -16,9 +16,5 @@ declare module 'App' {
   };
   export type TMenuPage = (props: TMenuPageProps) => string;
   export type TMenu = { menuId: string; name: string; isSoldOut: boolean };
-  export type TMenuEventHandler = (
-    $element: HTMLElement,
-    menuList: TMenuProps[],
-    categoryId: string,
-  ) => void;
+  export type TMenuEventHandler = ($element: HTMLElement, category: string) => void;
 }
