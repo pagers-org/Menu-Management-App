@@ -1,8 +1,8 @@
 import { EventEmitter, logAction } from '../common';
 import { debounce, deepClone, deepCloneAndFreeze } from '@/helpers/common';
-import { TAction, TReducer, TAnyState } from 'redux';
+import { TAction, TReducer, TAnyState, IStore } from 'redux';
 
-export const createStore = (reducer: TReducer) => {
+export const createStore = (reducer: TReducer): IStore<EventEmitter> => {
   const state = reducer();
   const observers: TAnyState = {};
   const actionsEmitter = new EventEmitter();
@@ -19,6 +19,7 @@ export const createStore = (reducer: TReducer) => {
 
     if ((action.type as string).includes('SUCCESS') || (action.type as string).includes('FAILURE'))
       notifyAll(newState);
+
     logAction(action, newState);
   };
 
@@ -34,7 +35,10 @@ export const createStore = (reducer: TReducer) => {
     });
   };
 
-  const getState = () => deepCloneAndFreeze(state);
+  const getState = (reduce?: string, key?: string) => {
+    const copiedState = deepCloneAndFreeze(state);
+    return reduce !== undefined && key !== undefined ? copiedState[reduce][key] : copiedState;
+  };
 
   return { dispatch, subscribe, getState, actionsEmitter };
 };

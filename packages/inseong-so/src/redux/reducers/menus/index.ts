@@ -12,21 +12,16 @@ import {
 } from './actions';
 import { TMenuPageProps, TMenuProps } from 'App';
 import { TReducer } from 'redux';
+import { CATEGORIES } from '~/src/constants';
 
 interface StateProps {
   categories: TMenuPageProps[];
-  selected: TMenuPageProps;
+  selected: Partial<TMenuPageProps>;
 }
 
-const initialState: StateProps = {
-  categories: [
-    { id: 'espresso', text: '☕ 에스프레소', menuList: [] },
-    { id: 'frappuccino', text: '🥤 프라푸치노', menuList: [] },
-    { id: 'blended', text: '🍹 블렌디드', menuList: [] },
-    { id: 'teavana', text: '🍸 티바나', menuList: [] },
-    { id: 'desert', text: '🍰 디저트', menuList: [] },
-  ],
-  selected: { id: 'espresso', text: '☕ 에스프레소', menuList: [] },
+export const initialState: StateProps = {
+  categories: CATEGORIES.map(category => ({ ...category, menuList: [] })),
+  selected: {},
 };
 
 const menus: TReducer = (state = initialState, action = { type: '' }) => {

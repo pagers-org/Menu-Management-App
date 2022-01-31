@@ -1,68 +1,53 @@
 import { TMenuProps, TMenuEventHandler } from 'App';
 import { TMouseEvent } from 'DOMEvent';
-import { IStore } from 'Store';
+import { IStore } from 'redux';
 import { ERROR_MESSAGE } from '~/src/constants';
-import { $closest, createUUID } from '~/src/helpers/common';
+import { $closest } from '~/src/helpers/common';
+import {
+  INSERT_MENU_ITEM,
+  MODIFY_MENU_ITEM,
+  REMOVE_MENU_ITEM,
+  SOLD_OUT_MENU_ITEM,
+} from '~/src/redux/reducers/menus/actions';
 import MenuPage from './MenuPage';
 
-// let lastCallback: any;
-// let lastCallbackDependencies: any[];
-
-// const useCallback = (callback: any, dependencies: any[]) => {
-//   if (lastCallbackDependencies) {
-//     const isChange = !dependencies.every(
-//       (item: any, index: number) => item === lastCallbackDependencies[index],
-//     );
-//     if (isChange) {
-//       lastCallback = callback;
-//       lastCallbackDependencies = dependencies;
-//     }
-//   } else {
-//     lastCallback = callback;
-//     lastCallbackDependencies = dependencies;
-//   }
-
-//   return lastCallback;
-// };
-
 const MenuPageContainer = (store: IStore) => {
-  const { id, text } = store.read('current');
-  const menuListId = `${id}-menuList`;
-
-  const addMenu = (menuList: TMenuProps[], categoryId: string) => {
+  const addMenu = (category: string) => {
     const $input = document.querySelector('.input-field') as HTMLInputElement;
     if ($input.value.trim() === '') return alert(ERROR_MESSAGE.INVALIID_INPUT);
-    menuList.push({ menuId: createUUID(), name: $input.value, isSoldOut: false });
-    store.create(categoryId, menuList);
-
+    store.dispatch({ type: INSERT_MENU_ITEM, category: category, name: $input.value });
     $input.value = '';
   };
 
-  const soldOutMenu: TMenuEventHandler = ($element, menuList, categoryId) => {
+  const soldOutMenu: TMenuEventHandler = ($element, category) => {
     const isSoldOut = $element.classList.contains('sold-out');
-    const key = $element.getAttribute('key');
     if (!confirm(`${isSoldOut ? '입고' : '품절'} 처리를 하시겠어요?`)) return;
-    const newMenuList = menuList.map(menu => {
-      if (menu.menuId === key) return { ...menu, isSoldOut: !isSoldOut };
-      return menu;
+    store.dispatch({
+      type: SOLD_OUT_MENU_ITEM,
+      category,
+      menuId: $element.getAttribute('key'),
+      name: $element.textContent,
     });
-    store.create(categoryId, newMenuList);
   };
-  const editMenu: TMenuEventHandler = ($element, menuList, categoryId) => {
+
+  const editMenu: TMenuEventHandler = ($element, category) => {
     const newMenuName = prompt('메뉴를 수정하시겠어요?') as string;
     if (newMenuName.trim().length < 1) return alert(ERROR_MESSAGE.INVALIID_INPUT);
-    const key = $element.getAttribute('key');
-    const newMenuList = menuList.map(menu => {
-      if (menu.menuId === key) return { ...menu, name: newMenuName };
-      return menu;
+    store.dispatch({
+      type: MODIFY_MENU_ITEM,
+      category,
+      menuId: $element.getAttribute('key'),
+      name: newMenuName,
     });
-    store.create(categoryId, newMenuList);
   };
-  const removeMenu: TMenuEventHandler = ($element, menuList, categoryId) => {
+
+  const removeMenu: TMenuEventHandler = ($element, category) => {
     if (!confirm('메뉴를 삭제하시겠어요?')) return;
-    const key = $element.getAttribute('key');
-    const newMenuList = menuList.filter(menu => menu.menuId !== key);
-    store.create(categoryId, newMenuList);
+    store.dispatch({
+      type: REMOVE_MENU_ITEM,
+      category,
+      menuId: $element.getAttribute('key'),
+    });
   };
 
   const SELECTOR = {
@@ -79,27 +64,18 @@ const MenuPageContainer = (store: IStore) => {
       .filter(check => check)[0];
     if (check === undefined) return;
 
-    const { id: currentId } = store.read('current');
-    const currentMenuListId = `${currentId}-menuList`;
-    const menuList = store.read(currentMenuListId) as TMenuProps[];
-    if (target.matches(SELECTOR.ADD)) {
-      return addMenu(menuList, currentMenuListId);
-    }
+    const { id: currentId } = store.getState('menus', 'selected');
+    if (target.matches(SELECTOR.ADD)) return addMenu(currentId);
+
     const $item = $closest(target, 'li', 'span');
     if ($item === undefined) return;
-    if (target.matches(SELECTOR.SOLDOUT)) {
-      return soldOutMenu($item, menuList, currentMenuListId);
-    }
-    if (target.matches(SELECTOR.EDIT)) {
-      return editMenu($item, menuList, currentMenuListId);
-    }
-    if (target.matches(SELECTOR.REMOVE)) {
-      return removeMenu($item, menuList, currentMenuListId);
-    }
+    if (target.matches(SELECTOR.SOLDOUT)) return soldOutMenu($item, currentId);
+    if (target.matches(SELECTOR.EDIT)) return editMenu($item, currentId);
+    if (target.matches(SELECTOR.REMOVE)) return removeMenu($item, currentId);
   };
 
   return {
-    component: MenuPage({ menuList: store.read(menuListId), id, text }),
+    component: MenuPage(store.getState('menus', 'selected')),
     events: [{ type: 'click', cb: handleClick }],
   };
 };

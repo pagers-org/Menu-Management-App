@@ -23,19 +23,21 @@ export const logEffect = (effect: any) => {
     `%ceffect: %c${effect.type}%c ${effectInfo}`,
     'color: gray',
     'color: green; font-weight: bold',
-    'color: salmon; font-weight: bold',
+    'color: #6f47ff; font-weight: bold',
   );
 };
 
 export const logAction = (action: any, newState: any) => {
   console.log(
-    `%caction: %c${action.type}%c ${
-      action.data ? JSON.stringify(action.data) : ''
-    }%c\nnew state:%c ${JSON.stringify(newState)}`,
+    `%caction: %c${action.type}%c ${JSON.stringify(
+      action.data,
+      null,
+      2,
+    )}%c\nnew state:%c ${JSON.stringify(newState, null, 2)}`,
     'color: gray',
-    'color: orange; font-weight: bold',
-    'color: salmon',
+    'color: #0031d1; font-weight: bold',
+    'color: #2ca9e8',
     'color: gray',
-    'color: salmon',
+    'color: #2ca9e8',
   );
 };
