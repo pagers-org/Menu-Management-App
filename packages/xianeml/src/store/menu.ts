@@ -1,5 +1,6 @@
 import { Tcategory, TmenuAction } from '../types/store.js';
 import { Tstate } from '../types/store.js';
+import { createMenu } from '../api/menu.js';
 
 /* 액션 타입 정의 */
 const CREATE_MENU = 'CREATE_MENU' as const;
@@ -47,24 +48,18 @@ export const setCurrentTab = (categoryId: string) => ({
 });
 
 // 리듀서는 새로운 상태를 생성하는 함수.
-export default function reducer(state: Tstate, action: TmenuAction) {
+export default async function reducer(state: Tstate, action: TmenuAction) {
   const { type, payload } = action;
   const { categoryId = '', menuId = '', menuName = '' } = payload;
   const { menus, categories } = state;
 
   switch (type) {
     case CREATE_MENU: {
-      const categoryMenus = menus.filter(menu => {
-        return menu.categoryId === categoryId;
-      });
-      // TODO: 중복 가능성 의심, UUID 적용
-      const id = `${categoryId}-menu-id-${categoryMenus.length}`;
-      const newMenu = { id, categoryId, menuName, inStock: true };
-      const newMenuList = [...menus, newMenu];
-      return { ...state, menus: newMenuList };
+      await createMenu({ category: categoryId, name: menuName });
+      break;
     }
     case EDIT_MENU: {
-      const newMenuList = menus.map(menu => {
+      const newMenuList = menus.map((menu) => {
         if (menu.id === menuId) {
           menu.menuName = menuName;
         }
@@ -73,11 +68,11 @@ export default function reducer(state: Tstate, action: TmenuAction) {
       return { ...state, menus: newMenuList };
     }
     case REMOVE_MENU: {
-      const newMenuList = menus.filter(menu => menu.id !== menuId);
+      const newMenuList = menus.filter((menu) => menu.id !== menuId);
       return { ...state, menus: newMenuList };
     }
     case SOLD_OUT_MENU: {
-      const newMenuList = menus.map(menu => {
+      const newMenuList = menus.map((menu) => {
         if (menu.id === menuId) {
           menu.inStock = false;
         }

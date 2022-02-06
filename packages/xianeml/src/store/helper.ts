@@ -1,4 +1,5 @@
 import { Treducer, TmenuAction, Tlistener, Tstate, Tstore } from '../types/store.js';
+import { getMenus } from '../api/menu.js';
 
 export const createStore = (reducer: Treducer): Tstore => {
   const initialState: Tstate = {
@@ -15,19 +16,15 @@ export const createStore = (reducer: Treducer): Tstore => {
 
   const listeners: Tlistener[] = [];
 
-  const getState = () => {
-    return JSON.parse(localStorage.getItem('state') || '{}') as Tstate;
+  const getState = async () => {
+    const menus = await getMenus(initialState.currentTab.id);
+    const state = { ...initialState, menus };
+
+    return state;
   };
 
   const dispatch = (action: TmenuAction) => {
-    const storageState = JSON.parse(localStorage.getItem('state') || '{}');
-
-    if (!storageState) {
-      localStorage.setItem('state', JSON.stringify(initialState));
-    } else {
-      const newState = reducer(storageState, action);
-      localStorage.setItem('state', JSON.stringify(newState));
-    }
+    reducer(initialState, action);
     publish();
   };
 

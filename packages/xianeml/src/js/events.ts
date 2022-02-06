@@ -15,13 +15,15 @@ export const handleNavigation = (store: Tstore) => (e: Event) => {
   store.dispatch(setCurrentTab(categoryId));
 };
 
-export const handleSubmitMenuForm = (store: Tstore) => (e: Event) => {
+export const handleSubmitMenuForm = (store: Tstore) => async (e: Event) => {
   e.preventDefault();
 
   const $menuInput = $('#espresso-menu-name') as HTMLInputElement;
   if (!$menuInput.value) return;
 
-  const { menus, currentTab } = store.getState();
+  const state = await store.getState();
+  const { menus, currentTab } = state;
+
   if (menus && menus.length === 20) {
     return alert('메뉴는 20개까지 추가 가능합니다.');
   }
@@ -29,7 +31,7 @@ export const handleSubmitMenuForm = (store: Tstore) => (e: Event) => {
   $menuInput.value = '';
 };
 
-export const handleMenuList = (e: Event, store: Tstore) => {
+export const handleMenuList = (store: Tstore) => (e: Event) => {
   const target = e.target as HTMLElement;
   const targetMenuId = (target.parentElement as HTMLElement).id;
 

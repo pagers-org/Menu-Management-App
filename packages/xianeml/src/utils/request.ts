@@ -1,26 +1,33 @@
 import { SERVER_URL } from '../utils/constants/env.js';
+import { TmenuResponse, TrequestConfig } from '../types/api.js';
+import { Tmenu } from '../types/store.js';
 
-type Tconfig = {
-  url: string;
-  method: string;
-  data?: { name?: string };
-};
-
-export default async (config: Tconfig) => {
+export default async (config: TrequestConfig) => {
   const { url, method, data } = config;
 
   const requestUrl = SERVER_URL + url;
+  const headers = {
+    'Content-Type': 'application/json',
+  };
 
-  const response = await fetch(requestUrl, {
-    method,
-    body: JSON.stringify(data),
-  });
-  console.log('요청정보? >>>> ', response);
-  const resData = await response.json();
+  try {
+    const response = await fetch(requestUrl, {
+      method,
+      headers,
+      body: JSON.stringify(data),
+    });
 
-  if (response.status === 200) {
-    return resData;
-  } else {
-    throw new Error('서버요청 에러!!');
+    if (response.status !== 200) throw Error('요청 에러');
+    if (method !== 'GET') return;
+
+    const resData = await response.json();
+
+    return resData.map((data: TmenuResponse) => ({
+      id: data.menuId,
+      menuName: data.name,
+      inStock: !data.isSoldOut,
+    })) as Tmenu[];
+  } catch (e) {
+    console.error(e);
   }
 };
