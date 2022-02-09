@@ -1,7 +1,7 @@
-declare module 'Store' {
+declare module 'Storage' {
   export type TItem = { key: string; value: any };
 
-  export interface IStore {
+  export interface IStorage {
     subscribe: (listener: (...args: any[]) => any) => () => void;
     notify: () => void;
     create: (key: string, value: any, isNotify = true) => void;

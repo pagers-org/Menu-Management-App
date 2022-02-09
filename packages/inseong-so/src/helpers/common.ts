@@ -1,3 +1,32 @@
+import { TDomGetter } from 'DOM';
+
+export const $ = (selector: string) => document.querySelector(selector) as HTMLElement;
+
+export const $all = (selector: string) => {
+  return document.querySelectorAll(selector) as NodeListOf<HTMLElement>;
+};
+
+export const $closest = (current: HTMLElement, selector: string, target: string) => {
+  const $li = current.closest(selector);
+  if (!($li instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
+  const $item = $li.querySelector(target);
+  if (!($item instanceof HTMLElement)) throw new Error(`Not Defined ${selector}`);
+  return $item;
+};
+
+export const $parentComponent: TDomGetter = selector => {
+  let $element: HTMLElement = $(selector);
+  while ($element.parentElement !== null) {
+    const parent = $element.parentElement as HTMLElement;
+    if (parent.tagName === 'BODY' || parent.getAttribute('data-component') !== null) break;
+    $element = parent;
+  }
+  return $element.parentElement as HTMLElement;
+};
+
+export const $attr = ($element: HTMLElement, selector: string | void) =>
+  $element.getAttribute(selector || 'data-component');
+
 /**
  * 문자열을 각 케이스로 변경합니다.
  */
@@ -174,3 +203,23 @@ export const isDuplicate = (value: any, items: any[]) =>
  * @returns
  */
 export const last = (array: any[], ...args: any[]) => array[array.length - 1][args[0]];
+
+let lastCallback: any;
+let lastCallbackDependencies: any[];
+
+export const useCallback = (callback: any, dependencies: any[]) => {
+  if (lastCallbackDependencies) {
+    const isChange = !dependencies.every(
+      (item: any, index: number) => item === lastCallbackDependencies[index],
+    );
+    if (isChange) {
+      lastCallback = callback;
+      lastCallbackDependencies = dependencies;
+    }
+  } else {
+    lastCallback = callback;
+    lastCallbackDependencies = dependencies;
+  }
+
+  return lastCallback;
+};

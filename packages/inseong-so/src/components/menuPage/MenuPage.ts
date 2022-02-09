@@ -29,6 +29,12 @@ const MenuPage: TMenuPage = ({ menuList, id, text }) => {
               <span
                 class="w-100 pl-2 menu-name ${isSoldOut ? 'sold-out' : ''}"
                 key=${menuId} index=${index}>${name}</span>
+                <button
+                  type="button"
+                  class="bg-gray-50 text-gray-500 text-sm mr-1 menu-count-button"
+                >
+                재고: 12개
+                </button>
               <button
                 type="button"
                 class="bg-gray-50 text-gray-500 text-sm mr-1 menu-sold-out-button"
