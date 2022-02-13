@@ -11,10 +11,11 @@ router.get('/category/:category/menu', async (req, res) => {
   if (!menuStore.isValid({ res, category })) {
     return;
   }
-
   try {
     const menuList = menuStore.getMenuListByCategory(category);
-    res.status(200).json(menuList);
+    setTimeout(() => {
+      res.status(200).json(menuList);
+    }, 500);
   } catch (e) {
     res.status(500).json({
       message: '메뉴 리스트를 가져오는데 에러가 발생했습니다.',
@@ -41,7 +42,9 @@ router.post('/category/:category/menu', async (req, res) => {
   try {
     const newMenuItem = new menuItem(name);
     menuStore.createMenuItem(category, newMenuItem);
-    res.status(200).json(newMenuItem);
+    setTimeout(() => {
+      res.status(200).json(newMenuItem);
+    }, 500);
   } catch (e) {
     res.status(500).json({
       message: '새로운 메뉴를 추가하는데 에러가 발생했습니다.',
@@ -62,7 +65,9 @@ router.put('/category/:category/menu/:menuId', async (req, res) => {
   try {
     menuStore.updateMenuItem(category, menuId, name);
     const updatedMenu = menuStore.getByMenuId(category, menuId);
-    res.status(200).json(updatedMenu);
+    setTimeout(() => {
+      res.status(200).json(updatedMenu);
+    }, 500);
   } catch (e) {
     res.status(500).json({
       message: '메뉴를 수정하는데 에러가 발생했습니다.',
@@ -83,7 +88,9 @@ router.put('/category/:category/menu/:menuId/soldout', async (req, res) => {
   try {
     menuStore.toggleSoldOutMenuItem(category, menuId);
     const updatedMenu = menuStore.getByMenuId(category, menuId);
-    res.status(200).json(updatedMenu);
+    setTimeout(() => {
+      res.status(200).json(updatedMenu);
+    }, 500);
   } catch (e) {
     res.status(500).json({
       message: '메뉴를 품절 상태로 변경 하는데 에러가 발생했습니다.',
@@ -103,7 +110,9 @@ router.delete('/category/:category/menu/:menuId', async (req, res) => {
   }
   try {
     menuStore.deleteMenuItem(category, menuId);
-    res.sendStatus(200);
+    setTimeout(() => {
+      res.sendStatus(200);
+    }, 500);
   } catch (e) {
     res.status(500).json({
       message: '메뉴를 삭제하는데 에러가 발생했습니다.',
