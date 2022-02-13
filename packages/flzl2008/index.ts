@@ -1,3 +1,4 @@
-import App from './src/js/App.js';
+import CafeMenuApp from './src/js/components/cafeMenuApp.js';
+import { $ } from './src/js/utils/commons.js';
 
-const app = new App('#app');
+new CafeMenuApp($('#app'));

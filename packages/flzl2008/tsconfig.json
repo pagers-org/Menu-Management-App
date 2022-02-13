@@ -22,7 +22,7 @@
     // 1번째 인자 : 제공되는 types
     // 2번째 인자 : 내가 만드는 types
     "typeRoots": [
-      "./node_modules/@types",
+      "./@types",
       "./types"
     ],
     // strict와 관련된 모든 속성이 true로 변경됨
