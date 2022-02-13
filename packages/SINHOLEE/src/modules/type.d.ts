@@ -4,7 +4,7 @@ import { Coffee } from './constants';
 export type CoffeeKeys = keyof typeof Coffee;
 
 export type MenuItemFormServer = {
-  id: string;
+  menuId: string;
   name: string;
   isSoldOut: boolean;
 };
