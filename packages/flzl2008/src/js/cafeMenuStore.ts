@@ -12,12 +12,18 @@ function cafeMenuReducer(action: Action, state: any = initialState) {
     case actions.ADD_MENU_NAME:
       return {
         ...state,
-        menuNames: state.menuNames.concat(action.data),
+        menuNames: addMenuName(state.menuNames, action.data),
       };
 
     default:
       return { ...state };
   }
+}
+
+function addMenuName(previousMenuNames: string[], data: string): string[] {
+  const newMenuNames = previousMenuNames.slice();
+  newMenuNames.push(data);
+  return newMenuNames;
 }
 
 const cafeMenuStore = createStore(cafeMenuReducer);

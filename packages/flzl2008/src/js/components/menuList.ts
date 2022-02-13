@@ -49,10 +49,23 @@ export default class MenuList extends Component {
     `;
   }
 
+  addInputMenuName() {
+    const $input = $('#espresso-menu-name') as HTMLInputElement;
+    const value = $input.value.trim();
+    if (!value) return;
+    cafeMenuStore.dispatch(actions.addMenuName(value));
+  }
+
   componentDidMount() {
-    $('#espresso-menu-submit-button').addEventListener('click', e => {
-      const $input = $('#espresso-menu-name') as HTMLInputElement;
-      cafeMenuStore.dispatch(actions.addMenuName($input.value));
+    $('#espresso-menu-submit-button').addEventListener('click', () => {
+      this.addInputMenuName();
+    });
+
+    $('#espresso-menu-name').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.addInputMenuName();
+      }
     });
   }
 }

@@ -43,5 +43,4 @@ export default class CafeMenuApp extends Component {
     const menuList = new MenuList($('.content__main'));
     cafeMenuStore.subscribe(() => menuList.render());
   }
-
 }
