@@ -6,9 +6,10 @@
     "noEmit": false,
     "outDir": "dist",
     "target": "es2017",
-    "isolatedModules": true,
     "jsx": "react-jsx",
     "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "plugins": [
       {
         "name": "typescript-styled-plugin",
