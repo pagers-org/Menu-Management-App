@@ -24,6 +24,7 @@
     "useDefineForClassFields": true,
     "importHelpers": true,
     "skipLibCheck": true,
+    "experimentalDecorators": true,
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "types": ["node"],
     "paths": {

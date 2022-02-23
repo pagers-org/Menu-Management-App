@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import ReactDOM from 'react-dom';
-import App from './presenter';
+import App from './presenter/App';
 import * as Global from './index.styles';
 
 ReactDOM.render(
