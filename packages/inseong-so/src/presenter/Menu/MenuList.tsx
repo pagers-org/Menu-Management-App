@@ -9,8 +9,18 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { useMachine } from '@xstate/react';
+import { CategoryContext } from 'domain';
+import appMachine from 'machine/app/machine';
+import MenuItem from './MenuItem';
 
 const MenuList = () => {
+  const [current, send] = useMachine(appMachine);
+  const { categories } = current.context;
+  const { text, displayText, menus } = categories.find(
+    category => category.selected,
+  ) as CategoryContext;
+
   return (
     <Box
       component="main"
@@ -31,8 +41,8 @@ const MenuList = () => {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h6">☕ 에스프레소 메뉴 관리</Typography>
-        <Box component="span">총 0개</Box>
+        <Typography variant="h6">{displayText}</Typography>
+        <Box component="span">총 {menus.length}개</Box>
       </Box>
       <FormGroup id="espresso-menu-form">
         <Paper
@@ -44,14 +54,18 @@ const MenuList = () => {
             alignItems: 'center',
           }}
         >
-          <InputBase sx={{ ml: 1, flex: 1 }} placeholder="에스프레소 메뉴 이름" />
+          <InputBase sx={{ ml: 1, flex: 1 }} placeholder={`${displayText} 메뉴 이름`} />
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
           <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
             <BorderColor />
           </IconButton>
         </Paper>
       </FormGroup>
-      <List id="espresso-menu-list">{}</List>
+      <List id={`${text}-menu-list`}>
+        {menus.map(menu => (
+          <MenuItem key={menu.menuId} menu={menu} />
+        ))}
+      </List>
     </Box>
   );
 };

@@ -1,6 +1,11 @@
 import { Box, Button, ButtonGroup, Link, Typography } from '@mui/material';
+import { useMachine } from '@xstate/react';
+import appMachine from 'machine/app/machine';
 
 const CategoryList = () => {
+  const [current, send] = useMachine(appMachine);
+  const { categories } = current.context;
+
   return (
     <Box
       component="header"
@@ -16,11 +21,11 @@ const CategoryList = () => {
         </Typography>
       </Link>
       <ButtonGroup sx={{ marginTop: 4 }} variant="outlined" aria-label="outlined button group">
-        <Button data-category-name="espresso">☕ 에스프레소</Button>
-        <Button data-category-name="frappuccino">🥤 프라푸치노</Button>
-        <Button data-category-name="blended">🍹 블렌디드</Button>
-        <Button data-category-name="teavana">🍸 티바나</Button>
-        <Button data-category-name="desert">🍰 디저트</Button>
+        {categories.map(({ id, text, displayText }) => (
+          <Button key={id} data-category-name={text} onClick={() => send('TOGGLE', { id })}>
+            {displayText}
+          </Button>
+        ))}
       </ButtonGroup>
     </Box>
   );
