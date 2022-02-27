@@ -5,18 +5,19 @@ declare module 'domain' {
     displayText: string;
   }
 
-  export interface MenuEntity {
+  export interface MenuItemEntity {
     menuId: string;
     name: string;
     isSoldOut: boolean;
   }
 
   export interface CategoryContext extends CategoryEntity {
-    menus: MenuEntity[];
+    menus: MenuItemEntity[];
     selected: boolean;
   }
 
-  export interface AppContext {
+  export interface MenuContext {
     categories: CategoryContext[];
+    showSpinner: boolean;
   }
 }
