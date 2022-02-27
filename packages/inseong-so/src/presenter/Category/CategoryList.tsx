@@ -1,33 +1,43 @@
-import { Box, Button, ButtonGroup, Link, Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 import { useMachine } from '@xstate/react';
-import appMachine from 'machine/app/machine';
+import { CategoryContext } from 'domain';
+import * as Styled from './Category.styles';
+import { menuMachine } from '@machine/MenuMachine';
+import { useEffect } from 'react';
+import Spinner from 'presenter/components/Spinner';
 
 const CategoryList = () => {
-  const [current, send] = useMachine(appMachine);
-  const { categories } = current.context;
+  const [{ context }, send] = useMachine(menuMachine);
+
+  const categories: CategoryContext[] = context.categories;
+  const showSpinner = context.showSpinner;
+
+  useEffect(() => {
+    send('FETCH');
+  }, [send]);
+
+  if (showSpinner) return <Spinner />;
 
   return (
-    <Box
-      component="header"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <Styled.Box component="header">
       <Link href="/" underline="none" color="black">
         <Typography variant="h4" fontWeight={700}>
           카페 메뉴 관리
         </Typography>
       </Link>
-      <ButtonGroup sx={{ marginTop: 4 }} variant="outlined" aria-label="outlined button group">
-        {categories.map(({ id, text, displayText }) => (
-          <Button key={id} data-category-name={text} onClick={() => send('TOGGLE', { id })}>
+      <Styled.ButtonGroup variant="outlined">
+        {categories.map(({ id, text, displayText, selected }) => (
+          <Button
+            variant={selected ? 'contained' : 'outlined'}
+            key={id}
+            data-category-name={text}
+            onClick={() => send('TOGGLE', { id })}
+          >
             {displayText}
           </Button>
         ))}
-      </ButtonGroup>
-    </Box>
+      </Styled.ButtonGroup>
+    </Styled.Box>
   );
 };
 

@@ -1,9 +1,9 @@
 import { Delete, Edit, NoFood } from '@mui/icons-material';
 import { IconButton, ListItem, ListItemText } from '@mui/material';
-import { MenuEntity } from 'domain';
+import { MenuItemEntity } from 'domain';
 
 interface Props {
-  menu: MenuEntity;
+  menu: MenuItemEntity;
 }
 
 const MenuItem = ({ menu }: Props) => {
@@ -23,7 +23,7 @@ const MenuItem = ({ menu }: Props) => {
         </>
       }
     >
-      <ListItemText primary="Single-line item">{menu.name}</ListItemText>
+      <ListItemText>{menu.name}</ListItemText>
     </ListItem>
   );
 };
