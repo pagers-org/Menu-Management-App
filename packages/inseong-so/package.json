@@ -31,6 +31,7 @@
     "url": "https://github.com/FECrash/Menu-Management-App/issues"
   },
   "dependencies": {
+    "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^2.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

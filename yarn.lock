@@ -3875,6 +3875,13 @@
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.6.0.tgz#2c275aa05c895eccebbfc34cfb223c6e8bd591a2"
   integrity sha512-ZkVeqEmRpBV2GHvjjUZqEai2PpUbuq8Bqd//vEYsp63J8WyexI8ppCqVS3Zs0QADf6aWuPdU+0XsPI647PVlQA==
 
+"@xstate/inspect@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@xstate/inspect/-/inspect-0.6.2.tgz#365f4784dece6e36b8fd1c00d419caf2ac353d2d"
+  integrity sha512-ZDJ0NETucV7wyT2Tyr3VeEgVD45TUGMTwbzmU2JfzUOjJQMyqn/XjcXGa3wxzgSvz2I0L4xC5ahRZN85j7oh1Q==
+  dependencies:
+    fast-safe-stringify "^2.0.7"
+
 "@xstate/react@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@xstate/react/-/react-2.0.0.tgz#fa1c950483a7a500d71faaa36e6970b337ba7543"
