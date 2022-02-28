@@ -6,29 +6,28 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  devServer: {
-    port: 5510,
-    hot: true,
-    open: true,
-    historyApiFallback: true,
-    watchFiles: ['src/**/*.ts', 'public/**/*'],
-  },
-  // devtool: 'inline-source-map',
-  target: ['es5', 'web'],
-  entry: './src/index.ts',
+  entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: '[chunkhash].js',
+    publicPath: '/',
+    filename: 'bundle.[chunkhash].js',
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsconfigPathsPlugin({})],
   },
+  devServer: {
+    port: 5510,
+    hot: true,
+    open: true,
+    historyApiFallback: true,
+    watchFiles: ['src/**/*.ts', 'src/**/*.tsx', 'dist/**/*'],
+  },
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, 'index.html'),
-      favicon: './assets/icon/favicon.ico',
+      template: path.resolve(__dirname, 'public/index.html'),
+      favicon: 'favicon.ico',
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -50,6 +49,22 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgoConfig: {
+                plugins: {
+                  removeViewBox: false,
+                },
+              },
+            },
+          },
+          'url-loader',
+        ],
+      },
+      {
         test: /\.(ts|tsx)$/,
         include: path.join(__dirname, 'src'),
         exclude: /(node_modules)|(dist)/,
@@ -62,6 +77,18 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(png|jpg)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: '[hash].[ext]',
+              limit: 10000
+            }
+          }
+        ]
+      }
     ],
   },
 };
