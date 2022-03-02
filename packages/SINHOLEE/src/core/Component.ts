@@ -36,7 +36,6 @@ export default class Component implements CoreComponent {
     this.$component = $(`[data-component=${this.key}]`, this.$parent);
     this.props = props;
     this.store = getSingletonStore();
-    this.store.subscribe(this.key, this.render.bind(this));
     this.render();
     this.setEvents();
   }
@@ -51,9 +50,14 @@ export default class Component implements CoreComponent {
     return '';
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async computed() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   mount() {}
-  render() {
+  async render() {
+    // if changed innerHTML , mount()
+    // if not changed => 이전
     this.$component.innerHTML = this.template();
+    await this?.computed();
     this?.mount();
   }
 

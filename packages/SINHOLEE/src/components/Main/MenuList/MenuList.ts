@@ -22,17 +22,12 @@ export default class MenuList extends Component {
       .join('')}`;
   }
 
-  mount() {
-    //fetch를 어느시점에 해야하는지 모르겠다...
-    // 비상 -> fetch 로직이 컴포넌트 안에 있으니 코어로직에서 각각의 render함수를 구독하고 있기 때문에
-    // 컴포넌트가 생성될때마다 fetch가 실행됨...
-    // init <-> rerender 두 로직을 분리해야하는 필요성 느낌
-    console.log(this.service.currentTab().key);
-    this.service.fetchByCategory(this.service.currentTab().key);
+  async computed(): Promise<void> {
+    await this.service.fetchByCategory(this.service.currentTab().key);
+  }
 
-    this.menuList.forEach(
-      item => new MenuItem({ key: `item-${item.id}`, props: { item } }),
-    );
+  mount() {
+    this.menuList.forEach(item => new MenuItem({ key: `item-${item.id}`, props: { item } }));
   }
 
   async onToggleSoldOut(e: MouseEvent) {

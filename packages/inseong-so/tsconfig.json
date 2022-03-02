@@ -1,24 +1,27 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "module": "esnext",
     "noEmit": false,
     "outDir": "dist",
     "target": "es2017",
-    "isolatedModules": true,
-    "paths": {
-      "~/*": [
-        "*"
-      ],
-      "@/*": [
-        "src/*"
-      ],
-    },
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "validProperties": ["dominant-baseline"]
+        }
+      }
+    ],
     "typeRoots": [
-      "src/types"
+      "@types"
     ]
   },
-  "include": ["**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
