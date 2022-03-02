@@ -1,11 +1,13 @@
 import { CategoryContext } from 'domain';
 
-export const CATEGORIES: CategoryContext[] = [
+export const MENU_CATEGORIES = 'MENU_CATEGORIES';
+
+export const INITIAL_CATEGORIES: CategoryContext[] = [
   {
     id: '@espresso@',
     text: 'espresso',
     displayText: '☕ 에스프레소',
-    selected: false,
+    selected: true,
     menus: [],
   },
   {
@@ -19,3 +21,7 @@ export const CATEGORIES: CategoryContext[] = [
   { id: '@teavana@', text: 'teavana', displayText: '🍸 티바나', selected: false, menus: [] },
   { id: '@desert@', text: 'desert', displayText: '🍰 디저트', selected: false, menus: [] },
 ];
+
+export const ACTIONS = {
+  ADD_MENU_ITEM: 'ADD_MENU_ITEM',
+};

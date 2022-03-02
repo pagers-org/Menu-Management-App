@@ -1,72 +1,63 @@
+import { menuMachine } from '@machine/MenuMachine';
 import { BorderColor } from '@mui/icons-material';
-import {
-  Box,
-  Divider,
-  FormGroup,
-  IconButton,
-  InputBase,
-  List,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Box, FormGroup, List, Typography } from '@mui/material';
 import { useMachine } from '@xstate/react';
-import { CategoryContext } from 'domain';
-import appMachine from 'machine/app/machine';
+import { ACTIONS } from '../../constants';
+import React, { useEffect, useRef } from 'react';
+import * as Styled from './Menu.styles';
 import MenuItem from './MenuItem';
 
 const MenuList = () => {
-  const [current, send] = useMachine(appMachine);
-  const { categories } = current.context;
-  const { text, displayText, menus } = categories.find(
-    category => category.selected,
-  ) as CategoryContext;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [{ context }, send] = useMachine(menuMachine);
+
+  const selectedCategory = context.categories.find(({ selected }) => selected);
+
+  useEffect(() => {
+    send('FETCH');
+  }, [send]);
+
+  const addMenuItem = (name: string) => {
+    const payload = { categoryId: selectedCategory?.id, name };
+    send({ type: ACTIONS.ADD_MENU_ITEM, payload });
+
+    if (inputRef.current instanceof HTMLInputElement) inputRef.current.value = '';
+  };
+
+  const handleClick = () => {
+    addMenuItem(inputRef.current?.value as string);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') return;
+    addMenuItem(inputRef.current?.value as string);
+  };
 
   return (
-    <Box
-      component="main"
-      sx={{
-        marginTop: 4,
-        width: '700px',
-        bgcolor: 'white',
-        padding: '3em',
-        borderRadius: '15px',
-        boxShadow: 3,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="h6">{displayText}</Typography>
-        <Box component="span">총 {menus.length}개</Box>
-      </Box>
-      <FormGroup id="espresso-menu-form">
-        <Paper
-          variant="outlined"
-          sx={{
-            marginTop: 2,
-            p: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <InputBase sx={{ ml: 1, flex: 1 }} placeholder={`${displayText} 메뉴 이름`} />
-          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-          <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+    <Styled.MenuListWrapper component="main">
+      <Styled.MenuListTitleWrapper>
+        <Typography variant="h6">{selectedCategory?.displayText}</Typography>
+        <Box component="span">총 {selectedCategory?.menus.length}개</Box>
+      </Styled.MenuListTitleWrapper>
+      <FormGroup id={`${selectedCategory?.text}-menu-form`}>
+        <Styled.Paper variant="outlined">
+          <Styled.InputBase
+            inputRef={inputRef}
+            placeholder={`${selectedCategory?.displayText} 메뉴 이름`}
+            onKeyDown={handleKeyDown}
+          />
+          <Styled.Divider orientation="vertical" />
+          <Styled.IconButton color="primary" onClick={handleClick}>
             <BorderColor />
-          </IconButton>
-        </Paper>
+          </Styled.IconButton>
+        </Styled.Paper>
       </FormGroup>
-      <List id={`${text}-menu-list`}>
-        {menus.map(menu => (
-          <MenuItem key={menu.menuId} menu={menu} />
+      <List id={`${selectedCategory?.text}-menu-list`}>
+        {selectedCategory?.menus.map((menu, index) => (
+          <MenuItem key={index} menu={menu} />
         ))}
       </List>
-    </Box>
+    </Styled.MenuListWrapper>
   );
 };
 
