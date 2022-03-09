@@ -10,7 +10,7 @@ export default class MenuList extends Component {
       .map(
         (value, index) =>
           `
-              <li data-menu-id=${index + 1} class="menu-list-item d-flex items-center py-2">
+              <li data-menu-id=${index} class="menu-list-item d-flex items-center py-2">
                 <span class="w-100 pl-2 menu-name">${value}</span>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-delete-button">삭제</button>
@@ -45,18 +45,31 @@ export default class MenuList extends Component {
     `;
   }
 
-  addInputMenuName($target: HTMLInputElement) {
+  addInputMenuName($target: HTMLInputElement): void {
     const value = $target.value.trim();
     if (!value) return;
     cafeMenuStore.dispatch(actions.addMenuName(value));
   }
 
-  deleteMenuName($target: HTMLInputElement) {
+  deleteMenuName($target: HTMLInputElement): void {
     const isDelete = confirm('정말 삭제하시겠습니까?');
     if (!isDelete || !$target.dataset || !$target.dataset.menuId) return;
 
     const removeIndex = parseInt($target.dataset.menuId);
     cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
+  }
+
+  editMenuName($target: HTMLInputElement): void {
+    const changeValue = prompt('메뉴명을 수정하세요')?.trim();
+    if (!changeValue || !$target.dataset || !$target.dataset.menuId) return;
+
+    const index = parseInt($target.dataset.menuId);
+    cafeMenuStore.dispatch(
+      actions.editMenuName({
+        changeValue: changeValue,
+        index: index,
+      }),
+    );
   }
 
   componentDidMount() {
@@ -66,7 +79,7 @@ export default class MenuList extends Component {
       if ($target.id === 'espresso-menu-submit-button') {
         this.addInputMenuName($('#espresso-menu-name') as HTMLInputElement);
       } else if ($target.classList.contains('menu-edit-button')) {
-        // this.editMenuName($target.closest('.menu-list-item') as HTMLInputElement);
+        this.editMenuName($target.closest('.menu-list-item') as HTMLInputElement);
       } else if ($target.classList.contains('menu-delete-button')) {
         this.deleteMenuName($target.closest('.menu-list-item') as HTMLInputElement);
       }

@@ -7,8 +7,7 @@ export const DELETE_MENU_NAME = 'DELETE_MENU_NAME';
 export const addMenuName = (name: string) => ({ type: ADD_MENU_NAME, data: name });
 export const editMenuName = (data: any) => ({
   type: EDIT_MENU_NAME,
-  name: data.name,
-  index: data.index,
+  data: data,
 });
 export const deleteMenuName = (removeIndex: number) => ({
   type: DELETE_MENU_NAME,

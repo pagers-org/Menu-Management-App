@@ -19,6 +19,11 @@ function cafeMenuReducer(action: Action, state: any = initialState) {
         ...state,
         menuNames: removeMenuName(state.menuNames, action.data),
       };
+    case actions.EDIT_MENU_NAME:
+      return {
+        ...state,
+        menuNames: editMenuName(state.menuNames, action.data),
+      };
     default:
       return { ...state };
   }
@@ -31,7 +36,15 @@ function addMenuName(previousMenuNames: string[], data: string): string[] {
 }
 
 function removeMenuName(previousMenuNames: string[], removeIndex: number): string[] {
-  return previousMenuNames.filter((value, index) => index + 1 !== removeIndex);
+  return previousMenuNames.filter((value, index) => index !== removeIndex);
+}
+
+function editMenuName(previousMenuNames: string[], data: any): string[] {
+  return previousMenuNames.map((name, index) => {
+    if (index !== data.index) return name;
+
+    return data.changeValue;
+  });
 }
 
 const cafeMenuStore = createStore(cafeMenuReducer);
