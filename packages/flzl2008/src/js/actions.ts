@@ -10,4 +10,7 @@ export const editMenuName = (data: any) => ({
   name: data.name,
   index: data.index,
 });
-export const deleteMenuName = () => ({ type: DELETE_MENU_NAME });
+export const deleteMenuName = (removeIndex: number) => ({
+  type: DELETE_MENU_NAME,
+  data: removeIndex,
+});

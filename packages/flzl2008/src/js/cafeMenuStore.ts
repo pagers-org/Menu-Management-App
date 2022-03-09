@@ -14,7 +14,11 @@ function cafeMenuReducer(action: Action, state: any = initialState) {
         ...state,
         menuNames: addMenuName(state.menuNames, action.data),
       };
-
+    case actions.DELETE_MENU_NAME:
+      return {
+        ...state,
+        menuNames: removeMenuName(state.menuNames, action.data),
+      };
     default:
       return { ...state };
   }
@@ -24,6 +28,10 @@ function addMenuName(previousMenuNames: string[], data: string): string[] {
   const newMenuNames = previousMenuNames.slice();
   newMenuNames.push(data);
   return newMenuNames;
+}
+
+function removeMenuName(previousMenuNames: string[], removeIndex: number): string[] {
+  return previousMenuNames.filter((value, index) => index + 1 !== removeIndex);
 }
 
 const cafeMenuStore = createStore(cafeMenuReducer);

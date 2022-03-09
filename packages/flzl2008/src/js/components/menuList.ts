@@ -4,17 +4,13 @@ import { $ } from '../utils/commons.js';
 import * as actions from '../actions';
 
 export default class MenuList extends Component {
-  public $target: HTMLElement;
-  public props: any;
-
   template() {
     const { menuNames }: { menuNames: [] } = cafeMenuStore.getState();
-    console.log('menuNames', menuNames);
     const menuListLi = menuNames
       .map(
         (value, index) =>
           `
-              <li data-menu-id=${index} class="menu-list-item d-flex items-center py-2">
+              <li data-menu-id=${index + 1} class="menu-list-item d-flex items-center py-2">
                 <span class="w-100 pl-2 menu-name">${value}</span>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-delete-button">삭제</button>
@@ -24,7 +20,7 @@ export default class MenuList extends Component {
       .join('');
 
     return `
-    <div class="wrapper bg-white p-10">
+    <div class="content__menu-list wrapper bg-white p-10">
       <div class="heading d-flex justify-between">
         <h2 class="mt-1">☕ 에스프레소 메뉴 관리</h2>
         <span class="mr-2 mt-4 menu-count">총 ${menuNames.length}개</span>
@@ -49,22 +45,41 @@ export default class MenuList extends Component {
     `;
   }
 
-  addInputMenuName() {
-    const $input = $('#espresso-menu-name') as HTMLInputElement;
-    const value = $input.value.trim();
+  addInputMenuName($target: HTMLInputElement) {
+    const value = $target.value.trim();
     if (!value) return;
     cafeMenuStore.dispatch(actions.addMenuName(value));
   }
 
+  deleteMenuName($target: HTMLInputElement) {
+    const isDelete = confirm('정말 삭제하시겠습니까?');
+    if (!isDelete || !$target.dataset || !$target.dataset.menuId) return;
+
+    const removeIndex = parseInt($target.dataset.menuId);
+    cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
+  }
+
   componentDidMount() {
-    $('#espresso-menu-submit-button').addEventListener('click', () => {
-      this.addInputMenuName();
+    $('.content__menu-list').addEventListener('click', e => {
+      const $target = e.target as HTMLElement;
+
+      if ($target.id === 'espresso-menu-submit-button') {
+        this.addInputMenuName($('#espresso-menu-name') as HTMLInputElement);
+      } else if ($target.classList.contains('menu-edit-button')) {
+        // this.editMenuName($target.closest('.menu-list-item') as HTMLInputElement);
+      } else if ($target.classList.contains('menu-delete-button')) {
+        this.deleteMenuName($target.closest('.menu-list-item') as HTMLInputElement);
+      }
+
+      e.preventDefault();
     });
 
-    $('#espresso-menu-name').addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
+    $('.content__menu-list').addEventListener('keydown', e => {
+      const $target = e.target as HTMLInputElement;
+
+      if (e.key === 'Enter' && $target.id === 'espresso-menu-name') {
+        this.addInputMenuName($target);
         e.preventDefault();
-        this.addInputMenuName();
       }
     });
   }

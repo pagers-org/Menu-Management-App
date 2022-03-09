@@ -4,9 +4,6 @@ import MenuList from './menuList.js';
 import { cafeMenuStore } from '../cafeMenuStore.js';
 
 export default class CafeMenuApp extends Component {
-  public $target: HTMLElement;
-  public props: any;
-
   template() {
     return `
     <div class="d-flex justify-center mt-5 w-100">
@@ -33,14 +30,14 @@ export default class CafeMenuApp extends Component {
             </button>
           </nav>
         </header>
-        <main class="content__main mt-10 d-flex justify-center"></main>
+        <main class="mt-10 d-flex justify-center"></main>
       </div>
     </div>
     `;
   }
 
   componentDidMount() {
-    const menuList = new MenuList($('.content__main'));
+    const menuList = new MenuList($('main'));
     cafeMenuStore.subscribe(() => menuList.render());
   }
 }
