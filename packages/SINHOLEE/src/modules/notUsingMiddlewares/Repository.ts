@@ -1,38 +1,12 @@
-import {
-  Actions,
-  CoffeeKeys,
-  DefaultState,
-  MenuItem,
-  MenuItemFormServer,
-} from '../type';
+import { Actions, CoffeeKeys, DefaultState, MenuItem, MenuItemFormServer } from '../type';
 import { ReturnCreateStore } from '../../core/myRedux';
-import {
-  addMenu,
-  changeTab,
-  editMenu,
-  fetchMenus,
-  removeMenu,
-  soldOutMenu,
-} from '../actions';
+import { addMenu, changeTab, editMenu, fetchMenus, removeMenu, soldOutMenu } from '../actions';
 import { Coffee } from '../constants';
 import { menuClient } from '../../networks/domain/menuClient';
 
-const adjustMenuItem = (menuItem: MenuItemFormServer): MenuItem => ({
-  ...menuItem,
-  text: menuItem.name,
-});
-
 export interface CurrentMenuRepository {
   add: (text: string, category: string) => void;
-  edit: ({
-    menuId,
-    text,
-    category,
-  }: {
-    menuId: string;
-    text: string;
-    category: string;
-  }) => void;
+  edit: ({ menuId, text, category }: { menuId: string; text: string; category: string }) => void;
   toggleSoldOut: (menuId: string, category: string) => void;
   remove: (menuId: string, category: string) => void;
   fetchByCategory: (cate: CoffeeKeys) => void;
@@ -92,17 +66,17 @@ export const createCurrentMenuRepository = (() => {
         const newMenu = await client.editText({ menuId, text, category });
         dispatch(
           editMenu({
-            ...adjustMenuItem(newMenu),
+            ...newMenu,
           }),
         );
       },
       fetchByCategory: async cate => {
         const menuList = await client.fetchByCategory(cate);
-        dispatch(fetchMenus(cate, menuList.map(adjustMenuItem)));
+        dispatch(fetchMenus(cate, menuList));
       },
       add: async (text, category) => {
         const menuItem = await client.add(text, category);
-        dispatch(addMenu(adjustMenuItem(menuItem)));
+        dispatch(addMenu(menuItem));
       },
     };
     return repository;

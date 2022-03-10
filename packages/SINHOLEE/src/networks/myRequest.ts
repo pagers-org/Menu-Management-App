@@ -1,8 +1,6 @@
 const baseURL = 'http://localhost:3000/api';
 
-export async function parseResponse<ReturnType>(
-  res: Response,
-): Promise<ReturnType> {
+export async function parseResponse<ReturnType>(res: Response): Promise<ReturnType> {
   if (res.ok) {
     return (await res.json()) as ReturnType;
   } else {
@@ -11,10 +9,7 @@ export async function parseResponse<ReturnType>(
   }
 }
 
-export const checkProperties = (
-  data: Record<string, any>,
-  expectedPropertyKeys: string[],
-) => {
+export const checkProperties = (data: Record<string, any>, expectedPropertyKeys: string[]) => {
   expectedPropertyKeys.forEach(key => {
     if (!Object.keys(data).includes(key)) {
       // 개발에 필요한 에러
@@ -58,7 +53,7 @@ export default ({
   },
   delete: async <BodyType>(restUrl: string) => {
     return await fetch(`${url}${restUrl}`, {
-      method: 'PUT',
+      method: 'DELETE',
       ...options,
     });
   },
