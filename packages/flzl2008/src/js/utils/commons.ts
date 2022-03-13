@@ -1,3 +1,3 @@
-export const $ = (selector: string) => {
+export default (selector: string) => {
   return document.querySelector(selector) as HTMLElement;
 };

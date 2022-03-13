@@ -1,6 +1,6 @@
 import Component from '../types/component.js';
-import { cafeMenuStore } from '../cafeMenuStore.js';
-import { $ } from '../utils/commons.js';
+import cafeMenuStore from '../cafeMenuStore.js';
+import $ from '../utils/commons.js';
 import * as actions from '../actions';
 
 export default class MenuList extends Component {

@@ -50,4 +50,4 @@ function editMenuName(previousMenuNames: string[], data: any): string[] {
 const cafeMenuStore = createStore(cafeMenuReducer);
 cafeMenuStore.dispatch({ type: '' }); // 초기 state를 set헤주기 위해 빈 action 호출
 
-export { cafeMenuStore };
+export default cafeMenuStore;

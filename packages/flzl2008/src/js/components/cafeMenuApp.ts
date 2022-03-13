@@ -1,7 +1,7 @@
-import { $ } from '../utils/commons.js';
+import $ from '../utils/commons.js';
 import Component from '../types/component.js';
 import MenuList from './menuList.js';
-import { cafeMenuStore } from '../cafeMenuStore.js';
+import cafeMenuStore from '../cafeMenuStore.js';
 
 export default class CafeMenuApp extends Component {
   template() {
