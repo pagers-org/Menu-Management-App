@@ -1,13 +1,12 @@
 import createStore from './redux';
-import { Action } from './types/types';
 import * as actions from './actions';
 
-const initialState = {
-  categoryNames: ['espresso', 'frappuccino', 'blended', 'teavana', 'desert'],
+const initialState: CafeMenuState = {
+  categoryNames: [],
   menuNames: [],
 };
 
-function cafeMenuReducer(action: Action, state: any = initialState) {
+function cafeMenuReducer(action: Redux.Action, state: CafeMenuState = initialState): CafeMenuState {
   switch (action.type) {
     case actions.ADD_MENU_NAME:
       return {
@@ -39,7 +38,7 @@ function removeMenuName(previousMenuNames: string[], removeIndex: number): strin
   return previousMenuNames.filter((value, index) => index !== removeIndex);
 }
 
-function editMenuName(previousMenuNames: string[], data: any): string[] {
+function editMenuName(previousMenuNames: string[], data: editMenuData): string[] {
   return previousMenuNames.map((name, index) => {
     if (index !== data.index) return name;
 

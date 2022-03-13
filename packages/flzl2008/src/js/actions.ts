@@ -5,7 +5,7 @@ export const DELETE_MENU_NAME = 'DELETE_MENU_NAME';
 
 // action create
 export const addMenuName = (name: string) => ({ type: ADD_MENU_NAME, data: name });
-export const editMenuName = (data: any) => ({
+export const editMenuName = (data: editMenuData) => ({
   type: EDIT_MENU_NAME,
   data: data,
 });

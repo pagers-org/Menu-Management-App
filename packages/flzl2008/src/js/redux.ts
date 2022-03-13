@@ -1,16 +1,14 @@
-import { Store, dispatch, getState, subscribe, Action, reducer } from './types/types.js';
+export default function createStore(reducer: Redux.reducer): Redux.Store {
+  let state: any;
+  const listeners: Redux.subscribeFunction[] = [];
 
-export default function createStore(reducer: reducer): Store {
-  let state: Record<string, any>;
-  const listeners: (() => void)[] = [];
-
-  const dispatch: dispatch = (action: Action) => {
+  const dispatch: Redux.dispatch = (action: Redux.Action) => {
     state = reducer(action, state);
     publish();
   };
 
-  const getState: getState = () => state;
-  const subscribe: subscribe = (fn: () => void) => listeners.push(fn);
+  const getState: Redux.getState = () => state;
+  const subscribe: Redux.subscribe = (fn: Redux.subscribeFunction) => listeners.push(fn);
   const publish = () => listeners.forEach(listener => listener());
 
   return {

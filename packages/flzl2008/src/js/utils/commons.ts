@@ -1,3 +1,1 @@
-export default (selector: string) => {
-  return document.querySelector(selector) as HTMLElement;
-};
+export default (selector: string): HTMLElement => document.querySelector(selector) as HTMLElement;
