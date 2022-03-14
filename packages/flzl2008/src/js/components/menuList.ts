@@ -53,7 +53,7 @@ export default class MenuList extends Component {
 
   deleteMenuName($target: HTMLInputElement): void {
     const isDelete = confirm('정말 삭제하시겠습니까?');
-    if (!isDelete || !$target.dataset || !$target.dataset.menuId) return;
+    if (!isDelete || !$target.dataset?.menuId) return;
 
     const removeIndex = parseInt($target.dataset.menuId);
     cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
@@ -61,7 +61,7 @@ export default class MenuList extends Component {
 
   editMenuName($target: HTMLInputElement): void {
     const changeValue = prompt('메뉴명을 수정하세요')?.trim();
-    if (!changeValue || !$target.dataset || !$target.dataset.menuId) return;
+    if (!changeValue || !$target.dataset?.menuId) return;
 
     const index = parseInt($target.dataset.menuId);
     cafeMenuStore.dispatch(actions.editMenuName({ changeValue, index }));
