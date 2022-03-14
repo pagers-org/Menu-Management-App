@@ -85,7 +85,9 @@ export default class MenuList extends Component {
     $('.content__menu-list').addEventListener('keydown', e => {
       const $target = e.target as HTMLInputElement;
 
-      if (e.key === 'Enter' && $target.id === 'espresso-menu-name') {
+      if (e.key !== 'Enter') return;
+
+      if ($target.id === 'espresso-menu-name') {
         this.addInputMenuName($target);
         e.preventDefault();
       }
