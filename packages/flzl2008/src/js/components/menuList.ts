@@ -5,7 +5,7 @@ import * as actions from '../actions';
 
 export default class MenuList extends Component {
   template() {
-    const { menuNames }: { menuNames: [] } = cafeMenuStore.getState();
+    const { menuNames } = cafeMenuStore.getState() as CafeMenuState;
     const menuListLi = menuNames
       .map(
         (value, index) =>
@@ -64,12 +64,7 @@ export default class MenuList extends Component {
     if (!changeValue || !$target.dataset || !$target.dataset.menuId) return;
 
     const index = parseInt($target.dataset.menuId);
-    cafeMenuStore.dispatch(
-      actions.editMenuName({
-        changeValue: changeValue,
-        index: index,
-      }),
-    );
+    cafeMenuStore.dispatch(actions.editMenuName({ changeValue, index }));
   }
 
   componentDidMount() {
