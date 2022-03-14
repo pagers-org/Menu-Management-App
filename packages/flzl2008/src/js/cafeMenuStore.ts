@@ -6,7 +6,10 @@ const initialState: CafeMenuState = {
   menuNames: [],
 };
 
-function cafeMenuReducer(action: Redux.Action, state: CafeMenuState = initialState): CafeMenuState {
+const cafeMenuReducer = (
+  action: Redux.Action,
+  state: CafeMenuState = initialState,
+): CafeMenuState => {
   switch (action.type) {
     case actions.ADD_MENU_NAME:
       return {
@@ -26,25 +29,25 @@ function cafeMenuReducer(action: Redux.Action, state: CafeMenuState = initialSta
     default:
       return { ...state };
   }
-}
+};
 
-function addMenuName(previousMenuNames: string[], data: string): string[] {
+const addMenuName = (previousMenuNames: string[], data: string): string[] => {
   const newMenuNames = previousMenuNames.slice();
   newMenuNames.push(data);
   return newMenuNames;
-}
+};
 
-function removeMenuName(previousMenuNames: string[], removeIndex: number): string[] {
+const removeMenuName = (previousMenuNames: string[], removeIndex: number): string[] => {
   return previousMenuNames.filter((value, index) => index !== removeIndex);
-}
+};
 
-function editMenuName(previousMenuNames: string[], data: editMenuData): string[] {
+const editMenuName = (previousMenuNames: string[], data: editMenuData): string[] => {
   return previousMenuNames.map((name, index) => {
     if (index !== data.index) return name;
 
     return data.changeValue;
   });
-}
+};
 
 const cafeMenuStore = createStore(cafeMenuReducer);
 cafeMenuStore.dispatch({ type: '' }); // 초기 state를 set헤주기 위해 빈 action 호출
