@@ -51,7 +51,7 @@ export default class MenuList extends Component {
     cafeMenuStore.dispatch(actions.addMenuName(value));
   }
 
-  deleteMenuName($target: HTMLInputElement): void {
+  deleteMenuName($target: HTMLElement): void {
     const isDelete = confirm('정말 삭제하시겠습니까?');
     if (!isDelete || !$target.dataset?.menuId) return;
 
@@ -59,7 +59,7 @@ export default class MenuList extends Component {
     cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
   }
 
-  editMenuName($target: HTMLInputElement): void {
+  editMenuName($target: HTMLElement): void {
     const changeValue = prompt('메뉴명을 수정하세요')?.trim();
     if (!changeValue || !$target.dataset?.menuId) return;
 
@@ -73,10 +73,15 @@ export default class MenuList extends Component {
 
       if ($target.id === 'espresso-menu-submit-button') {
         this.addInputMenuName($('#espresso-menu-name') as HTMLInputElement);
-      } else if ($target.classList.contains('menu-edit-button')) {
-        this.editMenuName($target.closest('.menu-list-item') as HTMLInputElement);
-      } else if ($target.classList.contains('menu-delete-button')) {
-        this.deleteMenuName($target.closest('.menu-list-item') as HTMLInputElement);
+      }
+
+      const $targetLi = $target.closest('.menu-list-item') as HTMLElement;
+      if ($target.classList.contains('menu-edit-button')) {
+        this.editMenuName($targetLi);
+      }
+
+      if ($target.classList.contains('menu-delete-button')) {
+        this.deleteMenuName($targetLi);
       }
 
       e.preventDefault();
