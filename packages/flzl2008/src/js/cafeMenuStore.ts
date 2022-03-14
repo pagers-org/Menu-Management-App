@@ -26,6 +26,8 @@ const cafeMenuReducer = (
         ...state,
         menuNames: editMenuName(state.menuNames, action.data),
       };
+    case actions.INIT_STATE:
+      return { ...state };
     default:
       return { ...state };
   }
@@ -50,6 +52,6 @@ const editMenuName = (previousMenuNames: string[], data: editMenuData): string[]
 };
 
 const cafeMenuStore = createStore(cafeMenuReducer);
-cafeMenuStore.dispatch({ type: '' }); // 초기 state를 set헤주기 위해 빈 action 호출
+cafeMenuStore.dispatch(actions.initState());
 
 export default cafeMenuStore;
