@@ -1,33 +1,54 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue';
 import MenuItem from './MenuItem.vue';
+import { useMenuStore } from '@/store';
+
+const inputName = ref('');
+
+const menuStore = useMenuStore();
+const selected = computed(() => menuStore.category);
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key !== 'Enter') return;
+  event.preventDefault();
+  addMenuAction();
+};
+
+const addMenuAction = () => {
+  menuStore.add(inputName.value);
+  inputName.value = '';
+};
 </script>
 <template>
   <div class="flex justify-between">
-    <h2 class="text-2xl mb-5 mt-1 font-bold">☕ 에스프레소 메뉴 관리</h2>
-    <span class="mr-2 mt-4">총 0개</span>
+    <h2 class="text-2xl mb-5 mt-1 font-bold">{{ selected.text }} 메뉴 관리</h2>
+    <span class="mr-2 mt-4">총 {{ selected.menus.length }}개</span>
   </div>
-  <form id="espresso-menu-form">
+  <form :id="selected.id + '-menu-form'">
     <div class="flex w-full">
-      <label for="espresso-menu-name" hidden> 에스프레소 메뉴 이름 </label>
+      <label for="selected.id+'-menu-name'" hidden> {{ selected.text }} 메뉴 이름 </label>
       <input
-        id="espresso-menu-name"
+        :id="selected.id + '-menu-name'"
+        v-model="inputName"
         type="text"
-        name="espressoMenuName"
+        :name="selected.id + 'MenuName'"
         class="text-base font-normal w-full h-auto px-5 py-3 border-none outline-none rounded-[2rem] bg-[#f1f5f9]"
-        placeholder="에스프레소 메뉴 이름"
+        :placeholder="selected.text + '이름'"
         autocomplete="off"
+        @keydown="handleKeydown"
       />
       <button
-        id="espresso-menu-submit-button"
+        :id="selected.id + '-menu-submit-button'"
         type="button"
         name="submit"
         class="text-base cursor-pointer min-w-[90px] h-auto px-5 py-[0.65rem] border-none outline-none rounded-[2rem] bg-green-600 ml-2"
+        @click="addMenuAction"
       >
         확인
       </button>
     </div>
   </form>
-  <ul id="espresso-menu-list" class="mt-3 pl-0">
+  <ul :id="selected.id + '-menu-list'" class="mt-3 pl-0">
     <MenuItem />
   </ul>
 </template>
