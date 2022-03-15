@@ -1,0 +1,25 @@
+{
+  "name": "@project/typescript_motion",
+  "version": "1.0.0",
+  "description": "엘리의 타입스크립트 강의 내용. sinholee꺼 아님!",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "tsc:build": "tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dream-coding-academy/typescript_motion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dream-coding-academy/typescript_motion/issues"
+  },
+  "homepage": "https://github.com/dream-coding-academy/typescript_motion#readme",
+  "dependencies": {
+    "typescript": "^4.6.2"
+  }
+}
