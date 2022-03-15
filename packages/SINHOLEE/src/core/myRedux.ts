@@ -13,9 +13,22 @@ export type ReturnCreateStore<TState = any, TAction = any> = {
   subscribe: (id: string, listener: () => void) => () => void;
 };
 
+const isChanged = (
+  prevState: Record<string, any>,
+  newState: Record<string, any>
+) => {
+  if (prevState === null || prevState === undefined) {
+    return true;
+  }
+  const prevStateString = JSON.stringify(prevState);
+  const newStateString = JSON.stringify(newState);
+
+  return prevStateString !== newStateString;
+};
+
 export function createStore<TState, TActions>(
   reducer: Reducer<TState, TActions>,
-  initialState: TState,
+  initialState: TState
 ): ReturnCreateStore<TState, TActions> {
   currentState = initialState;
   return {
@@ -27,11 +40,14 @@ export function createStore<TState, TActions>(
       const res: Readonly<TState> = currentState as TState;
       return res;
     },
-    dispatch: action => {
+    dispatch: (action) => {
       const result = reducer(currentState, action);
+      if (!isChanged(currentState, result)) {
+        return;
+      }
       currentState = result;
       console.log(listeners);
-      listeners.forEach(fn => fn());
+      listeners.forEach((fn) => fn());
     },
 
     subscribe: (id, listener) => {
