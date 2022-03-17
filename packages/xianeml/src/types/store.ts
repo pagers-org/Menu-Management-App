@@ -1,4 +1,10 @@
-export type Treducer = (state: Tstate, action: TmenuAction) => Tstate;
+export type Treducer = (state: Tstate, action: TmenuAction) => Promise<Tstate>;
+
+export type Tstore = {
+  getState: () => Promise<Tstate>;
+  dispatch: (action: TmenuAction) => void;
+  subscribe: (callback: Tlistener) => void;
+};
 
 export type Tstate = {
   menus: Tmenu[];
@@ -17,7 +23,6 @@ export type TmenuAction = {
 
 export type Tmenu = {
   id: string;
-  categoryId: string;
   menuName: string;
   inStock: boolean;
 };
