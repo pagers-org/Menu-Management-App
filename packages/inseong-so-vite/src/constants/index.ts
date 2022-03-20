@@ -5,3 +5,5 @@ export const INITIAL_CATEGORIES = [
   { id: 'teavana', text: '🍸 티바나', selected: false, menus: [] },
   { id: 'desert', text: '🍰 디저트', selected: false, menus: [] },
 ];
+
+export const APP_TITLE = '🌝 문벅스 메뉴 관리';
