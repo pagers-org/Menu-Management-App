@@ -22,10 +22,7 @@ function Store() {
     desert: [],
   };
   this.isValid = ({ res, category = null, menuId = null, name = null }) => {
-    if (
-      !validator.isArray(this.menuBoard[category]) &&
-      !!this.menuBoard[category]
-    ) {
+    if (!validator.isArray(this.menuBoard[category]) && !!this.menuBoard[category]) {
       res.status(404).json({ message: '존재하지 않는 카테고리 입니다.' });
       return;
     }
@@ -34,9 +31,7 @@ function Store() {
       return;
     }
     if (name && !this.isValidMenuName(name)) {
-      res
-        .status(400)
-        .json({ message: '메뉴 이름은 최소 2글자 이상이어야 합니다.' });
+      res.status(400).json({ message: '메뉴 이름은 최소 2글자 이상이어야 합니다.' });
       return;
     }
 
@@ -50,12 +45,9 @@ function Store() {
     this.menuBoard[category].push(menuItem);
   };
   this.toggleSoldOutMenuItem = (category, menuId) => {
-    const index = this.menuBoard[category].findIndex(
-      item => item.menuId === menuId,
-    );
+    const index = this.menuBoard[category].findIndex(item => item.menuId === menuId);
     if (this.menuBoard[category][index]) {
-      this.menuBoard[category][index].isSoldOut =
-        !this.menuBoard[category][index].isSoldOut;
+      this.menuBoard[category][index].isSoldOut = !this.menuBoard[category][index].isSoldOut;
     }
   };
   this.updateMenuItem = (category, menuId, name) => {
@@ -71,14 +63,10 @@ function Store() {
     return !!this.menuBoard[category].find(item => item.name === name);
   };
   this.isExistMenuItem = (category, menuId) => {
-    return !!this.menuBoard[category].find(
-      menuItem => menuItem.menuId === menuId,
-    );
+    return !!this.menuBoard[category].find(menuItem => menuItem.menuId === menuId);
   };
   this.deleteMenuItem = (category, menuId) => {
-    const menuItemIndex = this.menuBoard[category].findIndex(
-      menu => menu.id === menuId,
-    );
+    const menuItemIndex = this.menuBoard[category].findIndex(menu => menu.menuId === menuId);
     this.menuBoard[category].splice(menuItemIndex, 1);
     console.log(this.menuBoard[category]);
   };
