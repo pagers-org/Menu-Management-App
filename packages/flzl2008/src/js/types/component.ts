@@ -1,3 +1,5 @@
+import cafeMenuStore from '../cafeMenuStore';
+
 export default class Component {
   $target: HTMLElement;
   props: any;

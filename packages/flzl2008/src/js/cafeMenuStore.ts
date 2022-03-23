@@ -53,5 +53,4 @@ const editMenuName = (previousMenuNames: string[], data: editMenuData): string[]
 
 const cafeMenuStore = createStore(cafeMenuReducer);
 cafeMenuStore.dispatch(actions.initState());
-
 export default cafeMenuStore;

@@ -1,7 +1,6 @@
-import $ from '../utils/commons.js';
-import Component from '../types/component.js';
-import MenuList from './menuList.js';
-import cafeMenuStore from '../cafeMenuStore.js';
+import $ from '../utils/commons';
+import Component from '../types/component';
+import MenuList from './menuList';
 
 export default class CafeMenuApp extends Component {
   template() {
@@ -37,7 +36,6 @@ export default class CafeMenuApp extends Component {
   }
 
   componentDidMount() {
-    const menuList = new MenuList($('.content'));
-    cafeMenuStore.subscribe(() => menuList.render());
+    new MenuList($('.content'));
   }
 }

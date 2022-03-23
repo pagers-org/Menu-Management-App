@@ -1,7 +1,7 @@
 import Component from '../types/component';
-import cafeMenuStore from '../cafeMenuStore.js';
+import cafeMenuStore from '../cafeMenuStore';
 import * as actions from '../actions';
-import $ from '../utils/commons.js';
+import $ from '../utils/commons';
 
 export default class MenuItem extends Component {
   template(): string {

@@ -1,8 +1,8 @@
-import Component from '../types/component.js';
-import cafeMenuStore from '../cafeMenuStore.js';
-import $ from '../utils/commons.js';
+import Component from '../types/component';
+import cafeMenuStore from '../cafeMenuStore';
+import $ from '../utils/commons';
 import * as actions from '../actions';
-import MenuItem from './menuItem.js';
+import MenuItem from './menuItem';
 
 export default class MenuList extends Component {
   template(): string {
@@ -54,8 +54,7 @@ export default class MenuList extends Component {
       }
     });
 
-    const menuItem = new MenuItem($('#espresso-menu-list'));
-    cafeMenuStore.subscribe(() => menuItem.render());
+    new MenuItem($('#espresso-menu-list'));
   }
 
   addInputMenuName($target: HTMLInputElement): void {
