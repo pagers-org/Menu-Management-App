@@ -30,14 +30,14 @@ export default class CafeMenuApp extends Component {
             </button>
           </nav>
         </header>
-        <main class="mt-10 d-flex justify-center"></main>
+        <main class="content mt-10 d-flex justify-center"></main>
       </div>
     </div>
     `;
   }
 
   componentDidMount() {
-    const menuList = new MenuList($('main'));
+    const menuList = new MenuList($('.content'));
     cafeMenuStore.subscribe(() => menuList.render());
   }
 }

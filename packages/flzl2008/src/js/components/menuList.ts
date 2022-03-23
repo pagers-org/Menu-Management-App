@@ -2,22 +2,11 @@ import Component from '../types/component.js';
 import cafeMenuStore from '../cafeMenuStore.js';
 import $ from '../utils/commons.js';
 import * as actions from '../actions';
+import MenuItem from './menuItem.js';
 
 export default class MenuList extends Component {
-  template() {
+  template(): string {
     const { menuNames } = cafeMenuStore.getState() as CafeMenuState;
-    const menuListLi = menuNames
-      .map(
-        (value, index) =>
-          `
-              <li data-menu-id=${index} class="menu-list-item d-flex items-center py-2">
-                <span class="w-100 pl-2 menu-name">${value}</span>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-delete-button">삭제</button>
-              </li>
-              `,
-      )
-      .join('');
 
     return `
     <div class="content__menu-list wrapper bg-white p-10">
@@ -38,56 +27,23 @@ export default class MenuList extends Component {
           </button>
         </div>
       </form>
-      <ul id="espresso-menu-list" class="mt-3 pl-0">
-        ${menuListLi}
-      </ul>
+      <ul id="espresso-menu-list" class="mt-3 pl-0"></ul>
     </div>
     `;
   }
 
-  addInputMenuName($target: HTMLInputElement): void {
-    const value = $target.value.trim();
-    if (!value) return;
-    cafeMenuStore.dispatch(actions.addMenuName(value));
-  }
-
-  deleteMenuName($target: HTMLElement): void {
-    const isDelete = confirm('정말 삭제하시겠습니까?');
-    if (!isDelete || !$target.dataset?.menuId) return;
-
-    const removeIndex = parseInt($target.dataset.menuId);
-    cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
-  }
-
-  editMenuName($target: HTMLElement): void {
-    const changeValue = prompt('메뉴명을 수정하세요')?.trim();
-    if (!changeValue || !$target.dataset?.menuId) return;
-
-    const index = parseInt($target.dataset.menuId);
-    cafeMenuStore.dispatch(actions.editMenuName({ changeValue, index }));
-  }
-
-  componentDidMount() {
-    $('.content__menu-list').addEventListener('click', e => {
+  componentDidMount(): void {
+    $('#espresso-menu-form').addEventListener('click', e => {
       const $target = e.target as HTMLElement;
 
       if ($target.id === 'espresso-menu-submit-button') {
         this.addInputMenuName($('#espresso-menu-name') as HTMLInputElement);
       }
 
-      const $targetLi = $target.closest('.menu-list-item') as HTMLElement;
-      if ($target.classList.contains('menu-edit-button')) {
-        this.editMenuName($targetLi);
-      }
-
-      if ($target.classList.contains('menu-delete-button')) {
-        this.deleteMenuName($targetLi);
-      }
-
       e.preventDefault();
     });
 
-    $('.content__menu-list').addEventListener('keydown', e => {
+    $('#espresso-menu-form').addEventListener('keydown', e => {
       const $target = e.target as HTMLInputElement;
 
       if (e.key !== 'Enter') return;
@@ -97,5 +53,14 @@ export default class MenuList extends Component {
         e.preventDefault();
       }
     });
+
+    const menuItem = new MenuItem($('#espresso-menu-list'));
+    cafeMenuStore.subscribe(() => menuItem.render());
+  }
+
+  addInputMenuName($target: HTMLInputElement): void {
+    const value = $target.value.trim();
+    if (!value) return;
+    cafeMenuStore.dispatch(actions.addMenuName(value));
   }
 }
