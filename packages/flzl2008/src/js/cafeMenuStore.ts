@@ -1,8 +1,17 @@
 import createStore from './redux';
 import * as actions from './actions';
 
+const initialCategorys: Category[] = [
+  { emoji: '☕', name: 'espresso', value: '에스프레소' },
+  { emoji: '🥤', name: 'frappuccino', value: '프라푸치노' },
+  { emoji: '🍹', name: 'blended', value: '블렌디드' },
+  { emoji: '🫖', name: 'teavana', value: '티바나' },
+  { emoji: '🍰', name: 'desert', value: '디저트' },
+];
+
 const initialState: CafeMenuState = {
-  categoryNames: [],
+  categorys: initialCategorys,
+  selectedCategory: initialCategorys[0],
   menuNames: [],
 };
 
@@ -25,6 +34,16 @@ const cafeMenuReducer = (
       return {
         ...state,
         menuNames: editMenuName(state.menuNames, action.data),
+      };
+    case actions.CHANGE_CATEGORY:
+      return {
+        ...state,
+        selectedCategory: action.data,
+      };
+    case actions.SET_MENU_NAMES:
+      return {
+        ...state,
+        menuNames: action.data,
       };
     case actions.INIT_STATE:
       return { ...state };

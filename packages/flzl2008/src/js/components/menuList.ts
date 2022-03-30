@@ -5,22 +5,29 @@ import * as actions from '../actions';
 import MenuItems from './menuItems';
 
 export default class MenuList extends Component {
-  template(): string {
-    const { menuNames } = cafeMenuStore.getState() as CafeMenuState;
+  menuNames: string[];
+  selectedCategory: Category;
 
+  init() {
+    const { menuNames, selectedCategory } = cafeMenuStore.getState() as CafeMenuState;
+    this.menuNames = menuNames;
+    this.selectedCategory = selectedCategory;
+  }
+
+  template(): string {
     return `
     <div class="content__menu-list wrapper bg-white p-10">
       <div class="heading d-flex justify-between">
-        <h2 class="mt-1">☕ 에스프레소 메뉴 관리</h2>
-        <span class="mr-2 mt-4 menu-count">총 ${menuNames.length}개</span>
+        <h2 class="mt-1">${this.selectedCategory.emoji}  ${this.selectedCategory.value} 메뉴 관리</h2>
+        <span class="mr-2 mt-4 menu-count">총 ${this.menuNames.length}개</span>
       </div>
       <form id="espresso-menu-form">
         <div class="d-flex w-100">
           <label for="espresso-menu-name" class="input-label" hidden>
-              에스프레소 메뉴 이름
+            ${this.selectedCategory.value} 메뉴 이름
           </label>
           <input type="text" id="espresso-menu-name" name="espressoMenuName" class="input-field"
-                placeholder="에스프레소 메뉴 이름" autocomplete="off" />
+                placeholder="${this.selectedCategory.value} 메뉴 이름" autocomplete="off" />
           <button type="button" name="submit" id="espresso-menu-submit-button"
                 class="input-submit bg-green-600 ml-2">
                 확인
@@ -59,7 +66,9 @@ export default class MenuList extends Component {
 
   addInputMenuName($target: HTMLInputElement): void {
     const value = $target.value.trim();
+
     if (!value) return;
+
     cafeMenuStore.dispatch(actions.addMenuName(value));
   }
 }
