@@ -3,7 +3,7 @@ import cafeMenuStore from '../cafeMenuStore';
 import * as actions from '../actions';
 import $ from '../utils/commons';
 
-export default class MenuItem extends Component {
+export default class MenuItems extends Component {
   template(): string {
     const { menuNames } = cafeMenuStore.getState() as CafeMenuState;
     return menuNames

@@ -2,7 +2,7 @@ import Component from '../types/component';
 import cafeMenuStore from '../cafeMenuStore';
 import $ from '../utils/commons';
 import * as actions from '../actions';
-import MenuItem from './menuItem';
+import MenuItems from './menuItems';
 
 export default class MenuList extends Component {
   template(): string {
@@ -54,7 +54,7 @@ export default class MenuList extends Component {
       }
     });
 
-    new MenuItem($('#espresso-menu-list'));
+    new MenuItems($('#espresso-menu-list'));
   }
 
   addInputMenuName($target: HTMLInputElement): void {
