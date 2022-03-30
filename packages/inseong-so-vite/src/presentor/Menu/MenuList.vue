@@ -8,13 +8,8 @@ const inputName = ref('');
 const menuStore = useMenuStore();
 const selected = computed(() => menuStore.category);
 
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key !== 'Enter') return;
+const addMenuAction = event => {
   event.preventDefault();
-  addMenuAction();
-};
-
-const addMenuAction = () => {
   menuStore.add(inputName.value);
   inputName.value = '';
 };
@@ -39,7 +34,7 @@ const addMenuAction = () => {
       />
       <button
         :id="selected.id + '-menu-submit-button'"
-        type="button"
+        type="submit"
         name="submit"
         class="text-base cursor-pointer min-w-[90px] h-auto px-5 py-[0.65rem] border-none outline-none rounded-[2rem] bg-green-600 ml-2"
         @click="addMenuAction"

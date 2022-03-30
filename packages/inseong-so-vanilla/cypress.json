@@ -1,0 +1,10 @@
+{
+  "integrationFolder": "cypress/integration",
+  "pluginsFile": "cypress/plugins/index.js",
+  "supportFile": "cypress/support/index.js",
+  "testFiles": "./**/*.test.js",
+  "screenshotOnRunFailure": false,
+  "video": false,
+  "viewportWidth": 500,
+  "viewportHeight": 900
+}
