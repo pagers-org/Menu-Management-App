@@ -4,9 +4,17 @@ import * as actions from '../state/actions';
 import $ from '../utils/commons';
 
 export default class MenuItems extends Component {
+  menuNames: string[];
+  selectedCategory: Category;
+
+  init() {
+    const { menuNames, selectedCategory } = cafeMenuStore.getState() as CafeMenuState;
+    this.menuNames = menuNames;
+    this.selectedCategory = selectedCategory;
+  }
+
   template(): string {
-    const { menuNames } = cafeMenuStore.getState() as CafeMenuState;
-    return menuNames
+    return this.menuNames
       .map(
         (value, index) =>
           `
@@ -43,6 +51,8 @@ export default class MenuItems extends Component {
 
     const removeIndex = parseInt($target.dataset.menuId);
     cafeMenuStore.dispatch(actions.deleteMenuName(removeIndex));
+    this.init();
+    localStorage.setItem(this.selectedCategory.name, JSON.stringify(this.menuNames));
   }
 
   editMenuName($target: HTMLElement): void {
@@ -51,5 +61,7 @@ export default class MenuItems extends Component {
 
     const index = parseInt($target.dataset.menuId);
     cafeMenuStore.dispatch(actions.editMenuName({ changeValue, index }));
+    this.init();
+    localStorage.setItem(this.selectedCategory.name, JSON.stringify(this.menuNames));
   }
 }

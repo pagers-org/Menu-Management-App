@@ -70,5 +70,7 @@ export default class MenuList extends Component {
     if (!value) return;
 
     cafeMenuStore.dispatch(actions.addMenuName(value));
+    this.init();
+    localStorage.setItem(this.selectedCategory.name, JSON.stringify(this.menuNames));
   }
 }

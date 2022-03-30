@@ -5,11 +5,13 @@ import * as actions from '../state/actions';
 export default class MenuCategory extends Component {
   categorys: Category[];
   selectedCategory: Category;
+  menuNames: string[];
 
   init() {
-    const { categorys, selectedCategory } = cafeMenuStore.getState() as CafeMenuState;
+    const { categorys, selectedCategory, menuNames } = cafeMenuStore.getState() as CafeMenuState;
     this.categorys = categorys;
     this.selectedCategory = selectedCategory;
+    this.menuNames = menuNames;
   }
 
   template(): string {
@@ -26,15 +28,17 @@ export default class MenuCategory extends Component {
   }
 
   componentDidMount(): void {
-    this.$target.addEventListener('click', e => {
-      const $target = e.target as HTMLElement;
-      const categoryName = $target?.dataset?.categoryName;
-      const selectCategory = this.categorys.find(category => category.name === categoryName);
+    this.$target.addEventListener('click', e => this.changeCategory(e.target as HTMLElement));
+  }
 
-      if (!selectCategory) return;
+  changeCategory($target: HTMLElement): void {
+    const categoryName = $target?.dataset?.categoryName;
+    const nowSelectCategory = this.categorys.find(category => category.name === categoryName);
+    if (!nowSelectCategory) return;
+    cafeMenuStore.dispatch(actions.changeCategory(nowSelectCategory));
 
-      cafeMenuStore.dispatch(actions.changeCategory(selectCategory));
-      cafeMenuStore.dispatch(actions.setMenuNames([])); // 데이터 불러오기 기능 구현 전까지는 빈 배열로 초기화
-    });
+    let savedMenuNames = localStorage.getItem(nowSelectCategory.name);
+    if (!savedMenuNames) savedMenuNames = '[]';
+    cafeMenuStore.dispatch(actions.setMenuNames(JSON.parse(savedMenuNames)));
   }
 }

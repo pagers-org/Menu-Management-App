@@ -72,4 +72,9 @@ const editMenuName = (previousMenuNames: string[], data: editMenuData): string[]
 
 const cafeMenuStore = createStore(cafeMenuReducer);
 cafeMenuStore.dispatch(actions.initState());
+
+let savedMenuNames = localStorage.getItem(initialState.selectedCategory.name);
+if (!savedMenuNames) savedMenuNames = '[]';
+cafeMenuStore.dispatch(actions.setMenuNames(JSON.parse(savedMenuNames)));
+
 export default cafeMenuStore;
