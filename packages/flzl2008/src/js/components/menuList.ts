@@ -1,7 +1,7 @@
 import Component from '../types/component';
-import cafeMenuStore from '../cafeMenuStore';
+import cafeMenuStore from '../state/cafeMenuStore';
 import $ from '../utils/commons';
-import * as actions from '../actions';
+import * as actions from '../state/actions';
 import MenuItems from './menuItems';
 
 export default class MenuList extends Component {

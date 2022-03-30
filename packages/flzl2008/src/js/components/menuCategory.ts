@@ -1,6 +1,6 @@
 import Component from '../types/component';
-import cafeMenuStore from '../cafeMenuStore';
-import * as actions from '../actions';
+import cafeMenuStore from '../state/cafeMenuStore';
+import * as actions from '../state/actions';
 
 export default class MenuCategory extends Component {
   categorys: Category[];
