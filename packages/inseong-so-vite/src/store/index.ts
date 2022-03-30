@@ -3,12 +3,6 @@ import { createUUID } from '@/helper';
 import { Category, Menu, State } from '@/types';
 import { defineStore } from 'pinia';
 
-type MenuItem = {
-  menuId?: string;
-  name: string;
-  isSoldOut: boolean;
-};
-
 export const useMenuStore = defineStore({
   id: 'menu',
   state: (): State => ({
@@ -38,7 +32,21 @@ export const useMenuStore = defineStore({
       };
       this.category.menus.push(addMenu);
     },
-    remove({ menuId }: MenuItem) {
+    soldOut({ menuId, isSoldOut }: Omit<Menu, 'name'>) {
+      const soldOutMenus = this.category.menus.map(menuItem => {
+        if (menuItem.menuId === menuId) return { ...menuItem, isSoldOut };
+        return menuItem;
+      });
+      this.category.menus = soldOutMenus;
+    },
+    modify({ menuId, name }: Menu) {
+      const modifiedMenus = this.category.menus.map(menuItem => {
+        if (menuItem.menuId === menuId) return { ...menuItem, name };
+        return menuItem;
+      });
+      this.category.menus = modifiedMenus;
+    },
+    remove({ menuId }: Menu) {
       const removedMenus = this.category.menus.filter(menuItem => menuItem.menuId !== menuId);
       this.category.menus = removedMenus;
     },
